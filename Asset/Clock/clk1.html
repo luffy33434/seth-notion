@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nothing Clock</title>
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000000;
+            /* Nothing Black */
+            font-family: 'DotGothic16', sans-serif;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        .clock-box {
+            text-align: left;
+        }
+
+        .time {
+            font-size: 18vw;
+            /* Responsive size for small widgets */
+            line-height: 0.9;
+        }
+
+        .sec {
+            font-size: 5vw;
+            color: #d71920;
+            /* Nothing Red */
+            vertical-align: top;
+        }
+
+        .date {
+            font-size: 4vw;
+            color: #666;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Media query to cap size if viewed full screen */
+        @media (min-width: 600px) {
+            .time {
+                font-size: 5rem;
+            }
+
+            .sec {
+                font-size: 1.5rem;
+            }
+
+            .date {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="clock-box">
+        <div class="time">
+            <span id="h">00</span>:<span id="m">00</span><span class="sec" id="s">00</span>
+        </div>
+        <div class="date" id="d">Loading...</div>
+    </div>
+    <script>
+        function tick() {
+            const now = new Date();
+            const pad = (n) => String(n).padStart(2, '0');
+            document.getElementById('h').innerText = pad(now.getHours());
+            document.getElementById('m').innerText = pad(now.getMinutes());
+            document.getElementById('s').innerText = pad(now.getSeconds());
+
+            const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+            const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+            document.getElementById('d').innerText =
+                `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]}`;
+        }
+        setInterval(tick, 1000);
+        tick();
+    </script>
+</body>
+
+</html>

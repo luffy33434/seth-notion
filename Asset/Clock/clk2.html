@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal 12h Clock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #222222;
+            --accent-color: #888888;
+        }
+
+        /* Auto Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #191919;
+                --text-color: #ffffff;
+                --accent-color: #aaaaaa;
+            }
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--bg-color);
+            font-family: 'Manrope', sans-serif;
+            color: var(--text-color);
+            overflow: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .clock-container {
+            display: flex;
+            align-items: baseline;
+            line-height: 1;
+        }
+
+        .time {
+            font-size: 22vw;
+            /* Responsive */
+            font-weight: 600;
+            letter-spacing: -0.05em;
+        }
+
+        .ampm {
+            font-size: 6vw;
+            font-weight: 300;
+            margin-left: 10px;
+            color: var(--accent-color);
+            text-transform: uppercase;
+        }
+
+        .colon {
+            animation: breathe 2s infinite ease-in-out;
+        }
+
+        @keyframes breathe {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Cap size for desktop/iframe usage */
+        @media (min-width: 500px) {
+            .time {
+                font-size: 6rem;
+            }
+
+            .ampm {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Specific styling for the Minimal Card */
+        .minimal-card .widget-preview {
+            background-color: #f4f4f5;
+            /* Light grey background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px 12px 0 0;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        /* If your site has a dark mode, invert the preview background so the clock switches to dark mode too */
+        @media (prefers-color-scheme: dark) {
+            .minimal-card .widget-preview {
+                background-color: #222;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="clock-container">
+        <div class="time">
+            <span id="hours">12</span><span class="colon">:</span><span id="minutes">00</span>
+        </div>
+        <div class="ampm" id="ampm">AM</div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+
+            // 12 Hour Logic
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+
+            // Pad minutes with zero
+            const strMinutes = minutes < 10 ? '0' + minutes : minutes;
+
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = strMinutes;
+            document.getElementById('ampm').textContent = ampm;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+
+</html>
